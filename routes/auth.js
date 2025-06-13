@@ -10,16 +10,16 @@ router.post("/register", async (req, res) => {
     const { username, password, membership } = req.body;
     const hashed = await bcrypt.hash(password, 10);
     await User.create({ username, password: hashed, membership });
-    res.redirect("/login");
+    res.redirect("/login?success=1");
 });
 
 // Login
 router.get(["/", "/login"], (req, res) => {
-  res.render("login");
+    res.render("login");
 });
-router.post("/login", passport.authenticate("local", {
-    successRedirect: "/dashboard",
-    failureRedirect: "/login"
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/login?error=1'
 }));
 
 // Google Auth
